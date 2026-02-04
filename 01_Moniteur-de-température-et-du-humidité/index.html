@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moniteur de température et d'humidité</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .status-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 5px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            transition: all 0.5s;
+        }
+        
+        .normal {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+        
+        .alarm {
+            background-color: #f44336; /* Red */
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .data-box {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        .temp {
+            color: #e74c3c;
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .humidity {
+            color: #3498db;
+            font-size: 36px;
+            margin: 10px 0;
+        }
+        
+        .alarm-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 18px;
+            display: none;
+        }
+        
+        button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0b7dda;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Moniteur de température et d'humidité</h1>
+        
+        <!-- Status Circle -->
+        <div id="statusCircle" class="status-circle normal">
+            OK
+        </div>
+        
+        <!-- Temperature Display -->
+        <div class="data-box">
+            <h2>Temperature</h2>
+            <div class="temp" id="temperature">--.- °C</div>
+        </div>
+        
+        <!-- Humidity Display -->
+        <div class="data-box">
+            <h2>L'humidité</h2>
+            <div class="humidity" id="humidity">--.- %</div>
+        </div>
+        
+        <!-- Alarm Message -->
+        <div id="alarmMessage" class="alarm-message">
+             ALARM: Temperature > 27°C!
+        </div>
+        
+        <!-- Silence Button -->
+        <div>
+            <button id="silenceBtn" onclick="silenceAlarm()" disabled>
+                Silencer L'alarm
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let alarmActive = false;
+        
+        // Update all data
+        function updateData() {
+            fetch('/current')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network error');
+                    return response.json();
+                })
+                .then(data => {
+                    // Update temperature
+                    document.getElementById('temperature').textContent = 
+                        data.T.toFixed(1) + ' °C';
+                    
+                    // Update humidity
+                    document.getElementById('humidity').textContent = 
+                        data.H.toFixed(1) + ' %';
+                    
+                    // Update status circle and alarm
+                    const circle = document.getElementById('statusCircle');
+                    const alarmMsg = document.getElementById('alarmMessage');
+                    const silenceBtn = document.getElementById('silenceBtn');
+                    
+                    if (data.alarm === 1) {
+                        // ALARM ON
+                        circle.textContent = '!';
+                        circle.className = 'status-circle alarm';
+                        alarmMsg.style.display = 'block';
+                        silenceBtn.disabled = false;
+                        alarmActive = true;
+                    } else {
+                        // ALARM OFF
+                        circle.textContent = '✓';
+                        circle.className = 'status-circle normal';
+                        alarmMsg.style.display = 'none';
+                        silenceBtn.disabled = true;
+                        alarmActive = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        // Silence alarm button
+        function silenceAlarm() {
+            if (!alarmActive) return;
+            
+            fetch('/silence', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Alarme désactivée !');
+                    updateData(); // Refresh immediately
+                } else {
+                    alert('L\'alarme n\'a pas pu être désactivée.');
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+        
+        // Update data every 2 seconds
+        setInterval(updateData, 2000);
+        
+        // Initial update
+        updateData();
+    </script>
+</body>
+</html>
