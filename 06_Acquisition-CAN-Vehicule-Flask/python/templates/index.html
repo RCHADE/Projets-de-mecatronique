@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tableau de Bord Véhicule</title>
+    <meta http-equiv="refresh" content="1">
+    <style>
+        body { font-family: Arial; text-align: center; background: #f0f0f0; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; }
+        .card { background: white; margin: 15px; padding: 20px; width: 200px; 
+                border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .value { font-size: 36px; font-weight: bold; margin: 10px 0; }
+        .label { font-size: 18px; color: #666; }
+        .rpm .value { color: #e74c3c; }
+        .vitesse .value { color: #3498db; }
+        .temp .value { color: #e67e22; }
+    </style>
+</head>
+<body>
+    <h1>Données Véhicule en Direct</h1>
+    <div class="container" id="dashboard">
+        <div class="card rpm">
+            <div class="label">Régime Moteur</div>
+            <div class="value" id="REGIME">0</div>
+            <div>tr/min</div>
+        </div>
+        <div class="card vitesse">
+            <div class="label">Vitesse</div>
+            <div class="value" id="VITESSE">0</div>
+            <div>km/h</div>
+        </div>
+        <div class="card temp">
+            <div class="label">Température</div>
+            <div class="value" id="TEMP">0</div>
+            <div>°C</div>
+        </div>
+        <div class="card">
+            <div class="label">Carburant</div>
+            <div class="value" id="CARBURANT">0</div>
+            <div>%</div>
+        </div>
+        <div class="card">
+            <div class="label">Accélération</div>
+            <div class="value" id="ACCELERATION">0</div>
+            <div>%</div>
+        </div>
+        <div class="card">
+            <div class="label">Charge Moteur</div>
+            <div class="value" id="CHARGE">0</div>
+            <div>%</div>
+        </div>
+    </div>
+
+    <script>
+        function updateData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    for(let key in data) {
+                        let element = document.getElementById(key);
+                        if(element) element.textContent = data[key];
+                    }
+                });
+        }
+        setInterval(updateData, 100);
+    </script>
+</body>
+</html>
