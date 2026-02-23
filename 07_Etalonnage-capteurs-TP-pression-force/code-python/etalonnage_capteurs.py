@@ -191,3 +191,43 @@ plt.show()
 print("\n" + "="*60)
 print("✅ ANALYSE TERMINÉE AVEC SUCCÈS")
 print("="*60)
+
+
+# ============================================================
+# 6. SIMULATION DE BRUIT ET FILTRAGE
+# ============================================================
+
+print("\n" + "="*60)
+print("SIMULATION DE BRUIT ET FILTRAGE")
+print("="*60)
+
+from scipy import signal
+
+# Générer un signal avec bruit
+tension_fine = np.linspace(min(tension_V), max(tension_V), 1000)
+pression_reelle = a * tension_fine + b  # Signal parfait
+
+# Ajouter du bruit
+bruit = np.random.normal(0, 1.5, len(tension_fine))  # Bruit gaussien
+pression_brute = pression_reelle + bruit
+
+# Filtre passe-bas (Butterworth)
+ordre = 4
+frequence_coupure = 0.1  # Normalisée
+b, a_filtre = signal.butter(ordre, frequence_coupure, 'low')
+pression_filtree = signal.filtfilt(b, a_filtre, pression_brute)
+
+# Visualisation
+plt.figure(figsize=(10, 4))
+plt.plot(tension_fine * 1000, pression_reelle, 'g-', label='Signal réel', linewidth=2)
+plt.plot(tension_fine * 1000, pression_brute, 'r-', alpha=0.5, label='Signal brut (avec bruit)')
+plt.plot(tension_fine * 1000, pression_filtree, 'b-', label='Signal filtré', linewidth=2)
+plt.xlabel('Tension (mV)')
+plt.ylabel('Pression (mmHg)')
+plt.title('Débruitage par filtre passe-bas')
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.savefig(os.path.join(figures_dir, 'filtrage_signaux.png'), dpi=150)
+plt.show()
+
+print("✅ Filtrage appliqué et graphique sauvegardé")
