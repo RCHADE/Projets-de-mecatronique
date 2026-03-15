@@ -1,0 +1,5 @@
+verification/__pycache__/
+verification/sim_build/
+verification/results.xml
+venv/
+*.pyc

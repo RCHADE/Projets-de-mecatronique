@@ -1,0 +1,9 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1773533822" />
+    <testcase name="test_reset" classname="tb_pwm" file="/root/GitHub/Projets-de-mecatronique/09_FPGA-UART-Verification-cocotb/verification/tb_pwm.py" lineno="25" time="0.00177764892578125" sim_time_ns="500.0" ratio_time="281270.3862660944" />
+    <testcase name="test_duty_25" classname="tb_pwm" file="/root/GitHub/Projets-de-mecatronique/09_FPGA-UART-Verification-cocotb/verification/tb_pwm.py" lineno="38" time="0.007012844085693359" sim_time_ns="9213.0" ratio_time="1313732.3299109268" />
+    <testcase name="test_duty_50" classname="tb_pwm" file="/root/GitHub/Projets-de-mecatronique/09_FPGA-UART-Verification-cocotb/verification/tb_pwm.py" lineno="53" time="0.007328033447265625" sim_time_ns="9213.0" ratio_time="1257226.7943779281" />
+    <testcase name="test_duty_75" classname="tb_pwm" file="/root/GitHub/Projets-de-mecatronique/09_FPGA-UART-Verification-cocotb/verification/tb_pwm.py" lineno="68" time="0.011453866958618164" sim_time_ns="9213.0" ratio_time="804357.1689182157" />
+  </testsuite>
+</testsuites>
