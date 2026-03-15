@@ -1,7 +1,0 @@
-v 4
-file . "pwm_generator_tb.vhd" "e51d3ad8f67361bc4e03361331757b97f4ca3d14" "20260315002417.057":
-  entity pwm_generator_tb at 1( 0) + 0 on 13;
-  architecture behavioral of pwm_generator_tb at 8( 120) + 0 on 14;
-file . "pwm_generator.vhd" "ad0df89729523dee9553a4f35ace3ab4745e05df" "20260315002417.044":
-  entity pwm_generator at 1( 0) + 0 on 11;
-  architecture behavioral of pwm_generator at 14( 273) + 0 on 12;
