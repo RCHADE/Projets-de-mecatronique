@@ -1,4 +1,4 @@
-# Driver I²C STM32 — Capteur LM75
+# Driver I²C STM32, Capteur LM75
 
 Driver I²C générique pour STM32 (HAL), démontré avec un capteur de température LM75.
 Architecture en couches : driver I²C bas niveau → driver capteur → application.
