@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: investigation-robot
+Version: 0.0.1
+Summary: ROS2 nodes for robot investigation simulation
+Maintainer: Mohamed Ahmed
+Maintainer-email: mohamed-salem.mohamed-ahmed@etu.mines-ales.fr
+License: MIT
