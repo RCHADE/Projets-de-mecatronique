@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>investigation_robot</name>
+  <version>0.0.1</version>
+  <description>ROS2 nodes for robot investigation simulation</description>
+  <maintainer email="mohamed-salem.mohamed-ahmed@etu.mines-ales.fr">Mohamed Ahmed</maintainer>
+  <license>MIT</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

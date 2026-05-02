@@ -1,0 +1,5 @@
+[console_scripts]
+logger_node = investigation_robot.logger_node:main
+sensor_node = investigation_robot.sensor_node:main
+teleop_node = investigation_robot.teleop_node:main
+visu_node = investigation_robot.visu_node:main
